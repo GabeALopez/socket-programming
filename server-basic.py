@@ -38,6 +38,12 @@ def handle_client(conn, addr):
         elif cmd == "UPLOAD":
             file_name = data[1]
             receive_file(conn, file_name)
+        elif cmd == "DELETE":
+            file_name = data[1]
+            os.remove(file_name)
+            print("Removed File")
+
+
 
     print(f"{addr} disconnected")
     conn.close()

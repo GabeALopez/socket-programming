@@ -40,13 +40,16 @@ def main():
         elif cmd == "UPLOAD":
             file_path = data[1]
             upload_file(client, file_path)
+        elif cmd == "DELETE":
+            file_name = data[1]
+            client.send(f"DELETE@{file_name}".encode(FORMAT))
+            print("Sent delete command")
 
     print("Disconnected from the server.")
     client.close()  ## close the connection
 
 
 def upload_file(client, file_path):
-    global file_name
     try:
         file_name = os.path.basename(file_path)
         client.send(f"UPLOAD@{file_name}".encode(FORMAT))
