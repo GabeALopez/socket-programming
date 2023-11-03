@@ -31,16 +31,16 @@ def main():
         data = data.split(" ")
         cmd = data[0]
 
-        if cmd == "TASK":
+        if cmd.upper() == "TASK":
             client.send(cmd.encode(FORMAT))
 
-        elif cmd == "LOGOUT":
+        elif cmd.upper() == "LOGOUT":
             client.send(cmd.encode(FORMAT))
             break
-        elif cmd == "UPLOAD":
+        elif cmd.upper() == "UPLOAD":
             file_path = data[1]
             upload_file(client, file_path)
-        elif cmd == "DELETE":
+        elif cmd.upper() == "DELETE":
             file_name = data[1]
             client.send(f"DELETE@{file_name}".encode(FORMAT))
             print("Sent delete command")
@@ -50,8 +50,10 @@ def main():
 
 
 def upload_file(client, file_path):
-    try:
-        file_name = os.path.basename(file_path)
+    try:        
+
+        #file_name = os.path.basename(file_path)
+        file_name = file_path
         client.send(f"UPLOAD@{file_name}".encode(FORMAT))
 
         with open(file_name, "rb") as file:

@@ -40,7 +40,7 @@ def handle_client(conn, addr):
             receive_file(conn, file_name)
         elif cmd == "DELETE":
             file_name = data[1]
-            os.remove(file_name)
+            os.remove(".\\Server_Path\\" + str(file_name))
             print("Removed File")
 
 
@@ -52,7 +52,10 @@ def handle_client(conn, addr):
 def receive_file(conn, file_name):
     try:
         directory_path = "Server_Path"
-        file_path = os.path.join(directory_path, file_name)
+
+        split_file_name = file_name.split("\\")
+
+        file_path = os.path.join(directory_path, split_file_name[len(split_file_name)-1])
 
         os.makedirs(directory_path, exist_ok=True)
 
