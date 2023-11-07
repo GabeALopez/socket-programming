@@ -35,10 +35,10 @@ def handle_client(conn, addr):
             send_data += "LOGOUT from the server.\n"
             conn.send(send_data.encode(FORMAT))
 
-        elif cmd == "UPLOAD":
+        elif cmd.upper() == "UPLOAD":
             file_name = data[1]
             receive_file(conn, file_name)
-        elif cmd == "DELETE":
+        elif cmd.upper() == "DELETE":
             file_name = data[1]
             os.remove(".\\Server_Path\\" + str(file_name))
             print("Removed File")
@@ -49,22 +49,29 @@ def handle_client(conn, addr):
     conn.close()
 
 
-def receive_file(conn, file_name):
+def receive_file(p_conn, p_file_name):
     try:
         directory_path = "Server_Path"
 
-        split_file_name = file_name.split("\\")
+        split_file_name = p_file_name.split("\\")
 
         file_path = os.path.join(directory_path, split_file_name[len(split_file_name)-1])
 
         os.makedirs(directory_path, exist_ok=True)
-
+        num = True
         with open(file_path, "wb") as file:
-            file_data = conn.recv(SIZE)
+            file_data = p_conn.recv(SIZE)  
+
             while file_data:
-                file.write(file_data)
-                file_data = conn.recv(SIZE)
-            print(f"File '{file_name}' received successfully.")
+                if num:
+                    file.write(file_data)
+                    #file_data = p_conn.recv(SIZE)
+                    print("test")
+                    num = False
+                else:
+                    break
+            print(f"File '{p_file_name}' received successfully.")
+            
     except Exception as e:
         print(f"Error while received file: {str(e)}")
 
