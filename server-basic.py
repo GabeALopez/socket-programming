@@ -66,7 +66,6 @@ def receive_file(p_conn, p_file_name):
                 if num:
                     file.write(file_data)
                     #file_data = p_conn.recv(SIZE)
-                    print("test")
                     num = False
                 else:
                     break
